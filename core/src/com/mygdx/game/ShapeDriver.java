@@ -19,6 +19,17 @@ private Color colour;
     }
 
     /**
+     * Draws a point
+     * @param point Point
+     */
+    public void drawPoint(Point point) {
+        shapes.begin(ShapeType.Filled);
+        shapes.setColor(colour);
+        shapes.circle((float)point.getXValue(),(float)point.getYValue(),5);
+        shapes.end();
+    }
+
+    /**
      * Draws a Line Segment
      * @param line Line Segment
      */
@@ -56,6 +67,29 @@ private Color colour;
         shapes.rectLine((float) p1.getXValue(),(float) p1.getYValue(), (float) p2.getXValue(),(float) p2.getYValue(),2);
         shapes.end();
     }
+
+    /**
+     * Draws a triangle
+     * @param triangle Triangle
+     */
+    public void drawTriangle(Triangle triangle) {
+        drawLineSegment(triangle.getAB());
+        drawLineSegment(triangle.getAC());
+        drawLineSegment(triangle.getBC());
+    }
+
+    /**
+     * Draws a circle
+     * @param circle Circle
+     */
+    public void drawCircle(Circle circle) {
+        Gdx.gl.glLineWidth(2); //set line thickness to 2
+        shapes.begin(ShapeType.Line);
+        shapes.setColor(colour);
+        shapes.circle((float)circle.getCenter().getXValue(),(float)circle.getCenter().getYValue(),(float)circle.getRadius());
+        shapes.end();
+    }
+
 
     /**
      * disposes ShapeRenderer

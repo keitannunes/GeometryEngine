@@ -5,15 +5,25 @@ public class Circle {
     private double area; //area
     private double circumference; //circumference
     private double radius; //radius
-    private Point location = new Point(); //location/center of circle
+    private Point center = new Point(); //location/center of circle
 
     /**
-     * Constructor which sets the radius and sets the location to (0.0,0.0)
-     * @param r radius
+     * Constructor which sets the radius and sets the center to origin
+     * @param radius Radius
      */
-    public Circle(double r) {
-        radius = r;
-        location.setPosition(0, 0);
+    public Circle(double radius) {
+        this.radius = radius;
+        center.setPosition(0, 0);
+    }
+
+    /**
+     * Constructor which sets the radius and center
+     * @param point Centre
+     * @param radius Radius
+     */
+    public Circle(Point point, double radius) {
+        center.setPosition(point.getXValue(), point.getYValue());
+        this.radius = radius;
     }
 
     /**
@@ -33,11 +43,11 @@ public class Circle {
     }
 
     /**
-     * Sets location of the Circle to a new point
-     * @param p Point
+     * Sets center of the Circle to a new point
+     * @param point Point
      */
-    public void setLocation(Point p) {
-        location.setPosition(p.getXValue(), p.getYValue());
+    public void setCenter(Point point) {
+        center = point;
     }
 
     /**
@@ -47,6 +57,14 @@ public class Circle {
     public double getArea() {
         setArea();
         return area;
+    }
+
+    /**
+     * Returns center point
+     * @return center point
+     */
+    public Point getCenter() {
+        return center;
     }
 
     /**
@@ -72,12 +90,12 @@ public class Circle {
         circumference = 2 *  Math.PI * radius;
     }
     /**
-     * Tests if the a given point is inside of the circle, returns true if it is and false if it isn't
+     * Tests if the given point is inside the circle, returns true if it is and false if it isn't
      * @param p Point
      * @return true/false
      */
     public boolean isPointInside(Point p) {
-        LineSegment l = new LineSegment(location, p);
+        LineSegment l = new LineSegment(center, p);
         return l.getLength() <= radius;
     }
 
@@ -87,6 +105,6 @@ public class Circle {
      */
     @Override
     public String toString() {
-        return "Area: " + area + ", Circumference " + circumference + ", Radius: " + radius + ", Center/Location: " + location.toString();
+        return "Area: " + area + ", Circumference " + circumference + ", Radius: " + radius + ", Center/Location: " + center.toString();
     }
 }
