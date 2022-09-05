@@ -49,6 +49,7 @@ private Color colour;
         Point p2;
         double screenHeight = Gdx.graphics.getHeight();
         double screenWidth = Gdx.graphics.getWidth();
+        //Check if it's a vertical line
         if (line.getSlope() == Double.POSITIVE_INFINITY) {
             //Bottom Point
             p1 = new Point(line.getPoint().getXValue(),screenHeight/-2);

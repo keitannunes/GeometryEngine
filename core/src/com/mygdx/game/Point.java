@@ -61,9 +61,33 @@ public class Point {
     public double distanceFrom(Point p) {
         return  Math.sqrt(Math.pow(x - p.x, 2) + Math.pow(y - p.y, 2));
     }
+
+    /**
+     * Checks if point lies on a line segment
+     * @param line Line Segment
+     * @return If point lies on the line segment
+     */
+    public boolean liesOnLine(LineSegment line) {
+        //check if: S---P-----E using distance between points
+        LineSegment SP = new LineSegment(line.getStart(), this);
+        LineSegment PE = new LineSegment(this, line.getEnd());
+
+        //check if SE = SP + P (floating point comparison)
+        return Math.abs(SP.getLength() + PE.getLength() - line.getLength()) <= 0.000001;
+    }
+
+    /**
+     * Checks if point lies on a line
+     * @param line Line
+     * @return If point lies on the line
+     */
+    public boolean liesOnLine(Line line) {
+        Point pointAtX = new Point(this.getXValue(), this.getXValue()*line.getSlope()+line.getYIntercept().getYValue());
+        return pointAtX.equals(this);
+    }
     /**
      * overridden .toString method that returns both coordinates
-     * @return (x,y) (string)
+     * @return (x,y) as a string
      */
     @Override
     public java.lang.String toString() {
@@ -71,7 +95,7 @@ public class Point {
     }
 
     /**
-     * Returns true if 2 points are equal, false if otherwise
+     * Returns if 2 points are equal
      * @param o Point Object
      * @return True if 2 points are equal, false if otherwise
      */
@@ -86,7 +110,9 @@ public class Point {
 
         if (o instanceof Point) {
             Point p = (Point) o;
-            return this.x == p.x || this.y == p.y;
+            double xDiff = this.x - p.x;
+            double yDiff = this.y - p.y;
+            return Math.abs(xDiff) <= 0.000001 && Math.abs(yDiff) <= 0.000001;
         }
         return false;
     }

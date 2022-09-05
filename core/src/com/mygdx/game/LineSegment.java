@@ -48,10 +48,19 @@ public class LineSegment {
     /**
      * Check if a line is parallel to another line
      * @param lineSegment
-     * @return true/false
+     * @return boolean
      */
     public boolean isParallel(LineSegment lineSegment) {
         return this.slope == lineSegment.getSlope();
+    }
+
+    /**
+     * Checks if a line is parralel to another line
+     * @param otherLine Other Line
+     * @return boolean
+     */
+    public boolean isParallel(Line otherLine) {
+        return this.slope == otherLine.getSlope();
     }
 
     /**
@@ -103,33 +112,73 @@ public class LineSegment {
         return yIntercept;
     }
     /**
-     * returns the point of intersection between of the real line collinear with this line with another line.
-     * @param otherLineSegment
+     * returns the point of intersection between this line segment and another line
+     * @param otherLine Other Line
      * @return point of intersection
      */
-    public Point pointOfIntersection(LineSegment otherLineSegment) {//MAKE SURE TO TRY/CATCH when using this method
-        if ( this.isParallel(otherLineSegment) && this.getYIntercept().getYValue() == otherLineSegment.getYIntercept().getYValue()) {
-            throw new RuntimeException("Both lines are the same");
-        } else if (this.isParallel(otherLineSegment)) {
+    public Point pointOfIntersection(Line otherLine) {
+        if (this.isParallel(otherLine) && this.getYIntercept().getYValue() == otherLine.getYIntercept().getYValue()) {
+            throw new RuntimeException("Lines are collinear");
+        } else if (this.isParallel(otherLine)) {
             throw new RuntimeException("Lines are parallel");
         } else {
-            double startX = start.getXValue();
-            double startY= start.getYValue();
-            double endX = end.getXValue();
-            double endY = end.getYValue();
-            double otherStartX = otherLineSegment.start.getXValue();
-            double otherStartY= otherLineSegment.start.getYValue();
-            double otherEndX = otherLineSegment.end.getXValue();
-            double otherEndY = otherLineSegment.end.getYValue();
+            double p1X = start.getXValue();
+            double p1Y = start.getYValue();
+            double p2X = end.getXValue();
+            double p2Y = end.getYValue();
 
-            double v = (startX - endX) * (otherStartY - otherEndY) - (startY - endY) * (otherStartX - otherEndX);
-            return new Point(((startX * endY - startY * endX) * (otherStartX - otherEndX) - (startX - endX) * (otherStartX * otherEndY - otherStartY * otherEndX)) / v, ((startX * endY - startY * endX) * (otherStartY - otherEndY) - (startY - endY) * (otherStartX * otherEndY - otherStartY * otherEndX)) / v);
+            double p3X = otherLine.getPoint().getXValue();
+            double p3Y = otherLine.getPoint().getYValue();
+            double p4X = otherLine.getPoint().getXValue() + 1;
+            double p4Y = otherLine.getSlope() * (otherLine.getPoint().getXValue() + 1) + otherLine.getYIntercept().getYValue(); //y=mx+b
 
+            //I found this equation on Google
+            double v = (p1X - p2X) * (p3Y - p4Y) - (p1Y - p2Y) * (p3X - p4X); //intelliJ very cool
+            Point POI = new Point(((p1X * p2Y - p1Y * p2X) * (p3X - p4X) - (p1X - p2X) * (p3X * p4Y - p3Y * p4X)) / v, ((p1X * p2Y - p1Y * p2X) * (p3Y - p4Y) - (p1Y - p2Y) * (p3X * p4Y - p3Y * p4X)) / v);
+
+            if (POI.liesOnLine(this)) {
+                return POI;
+            } else {
+                throw new RuntimeException("Lines do not intersect");
+            }
         }
     }
 
     /**
-     * returns shortest distance between any point and the real line collinear with this line segment
+     * returns the point of intersection between this line segment and another line segment
+     * @param otherLine Other lines
+     * @return point of intersection
+     */
+    public Point pointOfIntersection(LineSegment otherLine) {
+        if (this.isParallel(otherLine) && this.getYIntercept().getYValue() == otherLine.getYIntercept().getYValue()) {
+            throw new RuntimeException("Lines are collinear");
+        } else if (this.isParallel(otherLine)) {
+            throw new RuntimeException("Lines are parallel");
+        } else {
+            double p1X = start.getXValue();
+            double p1Y = start.getYValue();
+            double p2X = end.getXValue();
+            double p2Y = end.getYValue();
+
+            double p3X = otherLine.getStart().getXValue();
+            double p3Y = otherLine.getStart().getYValue();
+            double p4X = otherLine.getEnd().getXValue();
+            double p4Y = otherLine.getEnd().getYValue();
+
+            //I found this equation on Google
+            double v = (p1X - p2X) * (p3Y - p4Y) - (p1Y - p2Y) * (p3X - p4X); //intelliJ very cool
+            Point POI = new Point(((p1X * p2Y - p1Y * p2X) * (p3X - p4X) - (p1X - p2X) * (p3X * p4Y - p3Y * p4X)) / v, ((p1X * p2Y - p1Y * p2X) * (p3Y - p4Y) - (p1Y - p2Y) * (p3X * p4Y - p3Y * p4X)) / v);
+
+            if (POI.liesOnLine(this) && POI.liesOnLine(otherLine)) {
+                return POI;
+            } else {
+                throw new RuntimeException("Lines do not intersect");
+            }
+        }
+    }
+
+    /**
+     * returns the shortest distance between any point and the real line collinear with this line segment
      * @param p
      * @return shortest distance from point
      */
