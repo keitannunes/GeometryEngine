@@ -31,7 +31,7 @@ public class GeoEngine extends ApplicationAdapter {
 		triangle = new Triangle(new Point(100,-200),new Point(125,200), new Point(-100, 25));
 		circle = new Circle(new Point(200,0),100);
 		line3 = new Line(new Point(0,0),10);
-		point = new Point(40,-200);
+		point = new Point(300,0);
 	}
 
 	@Override
@@ -57,7 +57,7 @@ public class GeoEngine extends ApplicationAdapter {
 
 
 		shapeDriver.setColour(Color.BLUE);
-		shapeDriver.drawLine(line2, false);
+		shapeDriver.drawLine(lineSeg, false);
 
 		//shapeDriver.setColour(Color.ORANGE);
 		//shapeDriver.drawLine(line3);

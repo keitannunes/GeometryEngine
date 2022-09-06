@@ -198,7 +198,7 @@ public class LineSegment {
         }
         try {
              p1 = new Line(p, -1 / slope).pointOfIntersection(this); //point where perpendicular line meets this line
-        } catch(RuntimeException err) {
+        } catch(RuntimeException err) { //if line perpendicular does not intersect the other line
             if (p.distanceFrom(start) < p.distanceFrom(end)) {
                 p1 = start;
             } else {

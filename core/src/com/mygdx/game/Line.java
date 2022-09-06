@@ -1,5 +1,8 @@
 package com.mygdx.game;
 
+/**
+ * Line class
+ */
 public class Line {
 
     private Point point = new Point(); //start point
