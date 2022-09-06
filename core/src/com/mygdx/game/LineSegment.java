@@ -182,8 +182,30 @@ public class LineSegment {
      * @param p
      * @return shortest distance from point
      */
-    public double shortestDistanceFromPoint(Point p) { //I DONT THINK THIS WORKS PLEASE CONFIRM FUTURE ME PLS (IT WORKS)
+    public double shortestDistanceFromPoint(Point p) {
         return Math.abs((start.getYValue() - end.getYValue()) * p.getXValue() + (end.getXValue() - start.getXValue()) * p.getYValue() + (start.getXValue() - end.getXValue()) * start.getYValue() + (end.getYValue() - start.getYValue()) * start.getXValue()) / Math.sqrt(Math.pow((start.getYValue() - end.getYValue()), 2) + Math.pow((end.getXValue() - start.getXValue()), 2));
+    }
+
+    /**
+     * Calculates and returns the shortest line between the line and a point
+     * @param p Point
+     * @return Shortest line
+     */
+    public LineSegment shortestLineFromPoint(Point p) { //TRY/CATCH
+        Point p1;
+        if (p.liesOnLine(this)) {
+            throw new RuntimeException("Point lies on line");
+        }
+        try {
+             p1 = new Line(p, -1 / slope).pointOfIntersection(this); //point where perpendicular line meets this line
+        } catch(RuntimeException err) {
+            if (p.distanceFrom(start) < p.distanceFrom(end)) {
+                p1 = start;
+            } else {
+                p1 = end;
+            }
+        }
+        return new LineSegment(p1,p);
     }
 
 

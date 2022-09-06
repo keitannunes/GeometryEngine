@@ -135,9 +135,22 @@ public class Line {
             } else {
                 throw new RuntimeException("Lines do not intersect");
             }
+
         }
     }
 
+    /**
+     * Calculates and returns the shortest line between the line and a point
+     * @param p Point
+     * @return Shortest line
+     */
+    public LineSegment shortestLineFromPoint(Point p) {
+        if (p.liesOnLine(this)) {
+            throw new RuntimeException("Point lies on line");
+        }
+        Point p1 = new Line(p, -1 / slope).pointOfIntersection(this); //point where perpendicular line meets this line
+        return new LineSegment(p1,p);
+    }
 
 }
 

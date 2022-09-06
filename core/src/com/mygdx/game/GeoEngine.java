@@ -17,19 +17,21 @@ public class GeoEngine extends ApplicationAdapter {
 	Line line3;
 	Triangle triangle;
 	Circle circle;
+	Point point;
 
 	@Override
 	public void create () {//Init
 		shapeDriver = new ShapeDriver();
 		lineSeg = new LineSegment(new Point(-75,100), new Point(300,200));
-		lineSeg2 = new LineSegment(new Point(-50, -127), new Point(100,300));
+		lineSeg2 = new LineSegment(new Point(0, 0), new Point(100,300));
 		xAxis = new Line(new Point(0,0), new Point(1,0));
 		yAxis = new Line(new Point(0,0), new Point(0,1));
-		line1 = new Line(new Point(0,1), 0.125);
+		line1 = new Line(new Point(0,28), 0.125);
 		line2 = new Line(new Point(0,76.34789),-0.125);
 		triangle = new Triangle(new Point(100,-200),new Point(125,200), new Point(-100, 25));
 		circle = new Circle(new Point(200,0),100);
 		line3 = new Line(new Point(0,0),10);
+		point = new Point(40,-200);
 	}
 
 	@Override
@@ -40,20 +42,24 @@ public class GeoEngine extends ApplicationAdapter {
 
 		//set axis
 		shapeDriver.setColour(Color.BLACK);
-		shapeDriver.drawLine(xAxis);
-		shapeDriver.drawLine(yAxis);
+		shapeDriver.drawLine(xAxis,false);
+		shapeDriver.drawLine(yAxis,false);
 
 		shapeDriver.setColour(Color.BLUE);
-		shapeDriver.drawLineSegment(lineSeg);
-		shapeDriver.drawLineSegment(lineSeg2);
+		shapeDriver.drawLine(lineSeg, false);
+		shapeDriver.drawLine(lineSeg2,false);
 
-		//shapeDriver.setColour(Color.GREEN);
-		//shapeDriver.drawLine(line1);
 
-		//shapeDriver.setColour(Color.BLUE);
-		//shapeDriver.drawLine(line2);
 
-		//shapeDriver.setColour(Color.GRAY);
+		shapeDriver.setColour(Color.GREEN);
+		//shapeDriver.drawLine(line1, false);
+		shapeDriver.drawLine(lineSeg2.shortestLineFromPoint(point), false);
+
+
+		shapeDriver.setColour(Color.BLUE);
+		shapeDriver.drawLine(line2, false);
+
+		//shapeDriver.setColour(Color.ORANGE);
 		//shapeDriver.drawLine(line3);
 
 		//shapeDriver.setColour(Color.ORANGE);
@@ -64,7 +70,8 @@ public class GeoEngine extends ApplicationAdapter {
 
 		//GL1, BL2, GRL3
 		shapeDriver.setColour(Color.RED);
-		shapeDriver.drawPoint(lineSeg2.pointOfIntersection(lineSeg));
+		shapeDriver.drawPoint(lineSeg.pointOfIntersection(lineSeg2));
+		shapeDriver.drawPoint(point);
 		//shapeDriver.drawPoint(circle.getCenter());
 
 	}
