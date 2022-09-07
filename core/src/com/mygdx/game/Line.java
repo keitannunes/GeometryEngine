@@ -22,7 +22,7 @@ public class Line {
         double y1 = p1.getYValue();
         double y2 = p2.getYValue();
         slope = (y2 - y1) / (x2 - x1);
-        yIntercept.setPosition(0, p1.getYValue() - slope * p1.getXValue());
+        yIntercept = new Point(0, p1.getYValue() - slope * p1.getXValue());
     }
 
     /**
@@ -34,7 +34,7 @@ public class Line {
     public Line(Point p, double slope) {
         point = p;
         this.slope = slope;
-        yIntercept.setPosition(0, p.getYValue() - slope * p.getXValue());
+        yIntercept = new Point(0, p.getYValue() - slope * p.getXValue());
     }
 
     /**

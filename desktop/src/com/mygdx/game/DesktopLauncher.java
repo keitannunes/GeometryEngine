@@ -8,7 +8,7 @@ import com.mygdx.game.GeoEngine;
 public class DesktopLauncher {
 	public static void main (String[] arg) {
 		Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
-		config.setForegroundFPS(30);
+		config.setForegroundFPS(0);
 		config.setTitle("Geometry Engine");
 		config.setWindowedMode(1280,720);
 		new Lwjgl3Application(new GeoEngine(), config);

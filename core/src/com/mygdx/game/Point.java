@@ -180,15 +180,7 @@ public class Point {
         x = 0;
         y = 0;
     }
-    /**
-     * Changes the position of the point to the users desired position
-     * @param x coordinate
-     * @param y coordinate
-     */
-    public void setPosition(double x, double y) {
-        this.x = x;
-        this.y = y;
-    }
+
     /**
      * Returns the y value of the point
      * @return x 
@@ -203,13 +195,7 @@ public class Point {
     public double getYValue() {
         return this.y;
     }
-    /**
-     * Calculates and returns the distance from the origin that the point is
-     * @return distance 
-     */
-    public double distanceFromOrigin() {
-        return  Math.sqrt(Math.pow(0 - x, 2) + Math.pow(0 - y, 2));
-    }
+
     /**
      * Calculates and returns the distance that the point is from another point
      * @param p point object

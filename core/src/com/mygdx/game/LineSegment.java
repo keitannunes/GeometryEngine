@@ -102,7 +102,7 @@ public class LineSegment {
      * sets the y-intercept of the line collinear with this line segment
      */
     private void setYIntercept() {
-        yIntercept.setPosition(0, start.getYValue() - slope * start.getXValue());
+        yIntercept = new Point(0, start.getYValue() - slope * start.getXValue());
     }
     /**
      * Provide a text representation of a Line

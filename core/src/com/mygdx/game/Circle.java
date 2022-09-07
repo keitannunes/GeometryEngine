@@ -13,7 +13,7 @@ public class Circle {
      */
     public Circle(double radius) {
         this.radius = radius;
-        center.setPosition(0, 0);
+        center = new Point(0, 0);
     }
 
     /**
@@ -22,7 +22,7 @@ public class Circle {
      * @param radius Radius
      */
     public Circle(Point center, double radius) {
-        this.center.setPosition(center.getXValue(), center.getYValue());
+        this.center = new Point(center.getXValue(), center.getYValue());
         this.radius = radius;
     }
 
@@ -43,19 +43,13 @@ public class Circle {
     }
 
     /**
-     * Sets center of the Circle to a new point
-     * @param point Point
-     */
-    public void setCenter(Point point) {
-        center = point;
-    }
-
-    /**
      * Provides the area of the circle
      * @return area
      */
     public double getArea() {
-        setArea();
+        if (area == 0 ) {
+            area =  Math.PI *  Math.pow(radius, 2);
+        }
         return area;
     }
 
@@ -72,29 +66,17 @@ public class Circle {
      * @return circumference
      */
     public double getCircumference() {
-        setCircumference();
+        if (circumference == 0) {
+            circumference = 2 *  Math.PI * radius;
+        }
         return circumference;
-    }
-
-    /**
-     * Calculates and sets the area of the circle
-     */
-    private void setArea() {
-        area =  Math.PI *  Math.pow(radius, 2);
-
-    }
-    /**
-     * Calculates and sets the circumference of the circle
-     */
-    private void setCircumference() {
-        circumference = 2 *  Math.PI * radius;
     }
     /**
      * Tests if the given point is inside the circle, returns true if it is and false if it isn't
      * @param p Point
      * @return true/false
      */
-    public boolean isPointInside(Point p) {
+    public boolean includes(Point p) {
         LineSegment l = new LineSegment(center, p);
         return l.getLength() <= radius;
     }
