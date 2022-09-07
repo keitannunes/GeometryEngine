@@ -18,11 +18,11 @@ public class Circle {
 
     /**
      * Constructor which sets the radius and center
-     * @param point Centre
+     * @param center Center
      * @param radius Radius
      */
-    public Circle(Point point, double radius) {
-        center.setPosition(point.getXValue(), point.getYValue());
+    public Circle(Point center, double radius) {
+        this.center.setPosition(center.getXValue(), center.getYValue());
         this.radius = radius;
     }
 

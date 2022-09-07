@@ -4,6 +4,17 @@ public class Point {
 
     private double x; //x coordinate
     private double y; //y coordinate
+    public static Point origin = new Point(0,0);
+
+    //move POI to here...
+    /*
+    public static Point intersect(Line line1, Line line2)
+    {
+        ...
+    }
+
+    public static Point[] intersect(Circle circle, Line line)
+*/
 
     /**
      * Constructor if there are 2 arguments upon instantiation.

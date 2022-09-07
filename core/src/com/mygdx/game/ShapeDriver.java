@@ -30,7 +30,7 @@ private int dotDistance;
      * Draws a point
      * @param point Point
      */
-    public void drawPoint(Point point) {
+    public void draw(Point point) {
         float x = (float)point.getXValue();
         float y = (float)point.getYValue();
         shapes.begin(ShapeType.Filled);
@@ -45,12 +45,17 @@ private int dotDistance;
         batch.end();
     }
 
+    public void draw(LineSegment line)
+    {
+        draw(line, false);
+    }
+
     /**
      * Draws a Line Segment
      * @param line Line Segment
      * @param dotted Dotted line
      */
-    public void drawLine(LineSegment line, boolean dotted) {
+    public void draw(LineSegment line, boolean dotted) {
         shapes.begin(ShapeType.Filled);
         shapes.setColor(colour);
 
@@ -64,12 +69,16 @@ private int dotDistance;
         shapes.end();
     }
 
+    public void draw(Line line) {
+        draw(line, false);
+    }
+
     /**
      * Draws a line
      * @param line Line
      * @param dotted Dotted line
      */
-    public void drawLine(Line line, boolean dotted) {
+    public void draw(Line line, boolean dotted) {
         Point p1;
         Point p2;
         double screenHeight = Gdx.graphics.getHeight();
@@ -105,19 +114,18 @@ private int dotDistance;
 
     /**
      * Draws a triangle
-     * @param triangle Triangle
+     * @param polygon Triangle
      */
-    public void drawTriangle(Triangle triangle) {
-        drawLine(triangle.getAB(), false);
-        drawLine(triangle.getAC(),false);
-        drawLine(triangle.getBC(),false);
+    public void draw(Polygon polygon) {
+        for (LineSegment lineSeg : polygon.getSides())
+            draw(lineSeg);
     }
 
     /**
      * Draws a circle
      * @param circle Circle
      */
-    public void drawCircle(Circle circle) {
+    public void draw(Circle circle) {
         Gdx.gl.glLineWidth(2); //set line thickness to 2
         shapes.begin(ShapeType.Line);
         shapes.setColor(colour);

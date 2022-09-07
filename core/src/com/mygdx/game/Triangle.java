@@ -1,6 +1,6 @@
 package com.mygdx.game;
 
-public class Triangle {
+public class Triangle extends Polygon {
 
     private Point vertexA; //Vertex A of the triangle
     private Point vertexB; //Vertex B of the triangle
@@ -10,6 +10,11 @@ public class Triangle {
     private LineSegment AB; //Line AB
     private LineSegment AC; //Line AC
     private LineSegment BC; //Line BC
+    private Point circumCenter;
+
+    public LineSegment[] getSides() {
+        return new LineSegment[] {AB, AC, BC};
+    }
 
     /**
      * Constructor to set the vertices and sides of this triangle
@@ -245,5 +250,14 @@ public class Triangle {
             return o.vertexA == this.vertexA && o.vertexB == this.vertexB && o.vertexC == this.vertexC;
         }
         return false;
+    }
+
+
+    public Point getCircumCenter() {
+        if (circumCenter == null) {
+            // code to get the circumCenter;
+        }
+
+        return circumCenter;
     }
 }

@@ -31,7 +31,7 @@ public class GeoEngine extends ApplicationAdapter {
 		triangle = new Triangle(new Point(100,-200),new Point(125,200), new Point(-100, 25));
 		circle = new Circle(new Point(200,0),100);
 		line3 = new Line(new Point(0,0),10);
-		point = new Point(300,0);
+		point = new Point(300,-30);
 	}
 
 	@Override
@@ -42,22 +42,22 @@ public class GeoEngine extends ApplicationAdapter {
 
 		//set axis
 		shapeDriver.setColour(Color.BLACK);
-		shapeDriver.drawLine(xAxis,false);
-		shapeDriver.drawLine(yAxis,false);
+		shapeDriver.draw(xAxis,false);
+		shapeDriver.draw(yAxis,false);
 
-		shapeDriver.setColour(Color.BLUE);
-		shapeDriver.drawLine(lineSeg, false);
-		shapeDriver.drawLine(lineSeg2,false);
+		//shapeDriver.setColour(Color.BLUE);
+		//shapeDriver.drawLine(lineSeg, false);
+		//shapeDriver.drawLine(lineSeg2,false);
 
 
 
-		shapeDriver.setColour(Color.GREEN);
+		//shapeDriver.setColour(Color.GREEN);
 		//shapeDriver.drawLine(line1, false);
-		shapeDriver.drawLine(lineSeg2.shortestLineFromPoint(point), false);
+		//shapeDriver.drawLine(lineSeg2.shortestLineFromPoint(point), false);
 
 
-		shapeDriver.setColour(Color.BLUE);
-		shapeDriver.drawLine(lineSeg, false);
+		//shapeDriver.setColour(Color.BLUE);
+		//shapeDriver.drawLine(lineSeg, false);
 
 		//shapeDriver.setColour(Color.ORANGE);
 		//shapeDriver.drawLine(line3);
@@ -69,10 +69,20 @@ public class GeoEngine extends ApplicationAdapter {
 		//shapeDriver.drawCircle(circle);
 
 		//GL1, BL2, GRL3
-		shapeDriver.setColour(Color.RED);
-		shapeDriver.drawPoint(lineSeg.pointOfIntersection(lineSeg2));
-		shapeDriver.drawPoint(point);
+		//shapeDriver.setColour(Color.RED);
+		//shapeDriver.drawPoint(lineSeg.pointOfIntersection(lineSeg2));
+		//shapeDriver.drawPoint(point);
 		//shapeDriver.drawPoint(circle.getCenter());
+		Line line = new Line(Point.origin,0.125);
+		LineSegment lineSeg = new LineSegment(new Point(100,50), new Point(100,-200));
+		shapeDriver.setColour(Color.BLUE);
+		shapeDriver.draw(line);
+		shapeDriver.setColour(Color.GREEN);
+		shapeDriver.draw(lineSeg);
+		shapeDriver.setColour(Color.RED);
+		shapeDriver.draw(new Circle(new Point(100,100),50));
+		shapeDriver.draw(new Triangle(Point.origin,new Point(-100,50), new Point(50,-100)));
+		//shapeDriver.draw(Point.intesect(line, lineSeg));
 
 	}
 	
