@@ -63,7 +63,7 @@ public class Point {
             double v = (p1X - p2X) * (p3Y - p4Y) - (p1Y - p2Y) * (p3X - p4X); //intelliJ very cool
             Point POI = new Point(((p1X * p2Y - p1Y * p2X) * (p3X - p4X) - (p1X - p2X) * (p3X * p4Y - p3Y * p4X)) / v, ((p1X * p2Y - p1Y * p2X) * (p3Y - p4Y) - (p1Y - p2Y) * (p3X * p4Y - p3Y * p4X)) / v);
 
-            if (POI.liesOnLine(lineSeg)) {
+            if (lineSeg.includes(POI)) {
                 return POI;
             } else {
                 throw new RuntimeException("Lines do not intersect");
@@ -98,7 +98,7 @@ public class Point {
             double v = (p1X - p2X) * (p3Y - p4Y) - (p1Y - p2Y) * (p3X - p4X); //intelliJ very cool
             Point POI = new Point(((p1X * p2Y - p1Y * p2X) * (p3X - p4X) - (p1X - p2X) * (p3X * p4Y - p3Y * p4X)) / v, ((p1X * p2Y - p1Y * p2X) * (p3Y - p4Y) - (p1Y - p2Y) * (p3X * p4Y - p3Y * p4X)) / v);
 
-            if (POI.liesOnLine(lineSeg1) && POI.liesOnLine(lineSeg2)) {
+            if (lineSeg1.includes(POI) && lineSeg2.includes(POI)) {
                 return POI;
             } else {
                 throw new RuntimeException("Lines do not intersect");
@@ -164,29 +164,7 @@ public class Point {
         return  Math.sqrt(Math.pow(x - p.x, 2) + Math.pow(y - p.y, 2));
     }
 
-    /**
-     * Checks if point lies on a line segment
-     * @param line Line Segment
-     * @return If point lies on the line segment
-     */
-    public boolean liesOnLine(LineSegment line) {
-        //check if: S---P-----E using distance between points
-        LineSegment SP = new LineSegment(line.getStart(), this);
-        LineSegment PE = new LineSegment(this, line.getEnd());
 
-        //check if SE = SP + P (floating point comparison)
-        return Math.abs(SP.getLength() + PE.getLength() - line.getLength()) <= 0.000001;
-    }
-
-    /**
-     * Checks if point lies on a line
-     * @param line Line
-     * @return If point lies on the line
-     */
-    public boolean liesOnLine(Line line) {
-        Point pointAtX = new Point(this.getXValue(), this.getXValue()*line.getSlope()+line.getYIntercept().getYValue());
-        return pointAtX.equals(this);
-    }
     /**
      * overridden .toString method that returns both coordinates
      * @return (x,y) as a string

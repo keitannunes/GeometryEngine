@@ -45,13 +45,17 @@ private int dotDistance;
         batch.end();
     }
 
+    /**
+     * Draws a line segment
+     * @param line Line Segment
+     */
     public void draw(LineSegment line)
     {
         draw(line, false);
     }
 
     /**
-     * Draws a Line Segment
+     * Draws a line segment
      * @param line Line Segment
      * @param dotted Dotted line
      */
@@ -69,6 +73,10 @@ private int dotDistance;
         shapes.end();
     }
 
+    /**
+     * Draws a line
+     * @param line Line
+     */
     public void draw(Line line) {
         draw(line, false);
     }
@@ -113,8 +121,8 @@ private int dotDistance;
     }
 
     /**
-     * Draws a triangle
-     * @param polygon Triangle
+     * Draws a polygon
+     * @param polygon Polygon
      */
     public void draw(Polygon polygon) {
         for (LineSegment lineSeg : polygon.getSides())

@@ -50,7 +50,7 @@ public class Line {
      * Check if a line segment is parallel to this line
      *
      * @param lineSegment
-     * @return true/false
+     * @return boolean
      */
     public boolean isParallel(LineSegment lineSegment) {
         return this.slope == lineSegment.getSlope();
@@ -81,15 +81,26 @@ public class Line {
 
     /**
      * Calculates and returns the shortest line between the line and a point
-     * @param p Point
+     * @param point Point
      * @return Shortest line
      */
-    public LineSegment shortestLineFromPoint(Point p) {
-        if (p.liesOnLine(this)) {
+    public LineSegment shortestLineFromPoint(Point point) {
+        if (this.includes(point)) {
             throw new RuntimeException("Point lies on line");
         }
-        Point p1 = Point.intersect(new Line(p, -1 / slope), this); //point where perpendicular line meets this line
-        return new LineSegment(p1,p);
+        Point p1 = Point.intersect(new Line(point, -1 / slope), this); //point where perpendicular line meets this line
+        return new LineSegment(p1,point);
+    }
+
+    /**
+     * Checks if point is on this line
+     * @param point Point
+     * @return Boolean
+     */
+    public boolean includes(Point point) {
+        //check if parameter point is equal to the point on the line
+        Point pointAtX = new Point(point.getXValue(), point.getXValue()*this.getSlope()+this.getYIntercept().getYValue());
+        return pointAtX.equals(point);
     }
 
 }

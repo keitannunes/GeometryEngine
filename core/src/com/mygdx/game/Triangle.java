@@ -2,19 +2,9 @@ package com.mygdx.game;
 
 public class Triangle extends Polygon {
 
-    private Point vertexA; //Vertex A of the triangle
-    private Point vertexB; //Vertex B of the triangle
-    private Point vertexC; //Vertex C of the triangle
-    private double area; //Area of the triangle
-    private double perimeter; //Perimeter of the triangle
-    private LineSegment AB; //Line AB
-    private LineSegment AC; //Line AC
-    private LineSegment BC; //Line BC
     private Point circumCenter;
+    private Point centroid;
 
-    public LineSegment[] getSides() {
-        return new LineSegment[] {AB, AC, BC};
-    }
 
     /**
      * Constructor to set the vertices and sides of this triangle
@@ -24,12 +14,9 @@ public class Triangle extends Polygon {
      * @param C Point C
      */
     public Triangle(Point A, Point B, Point C) {
-        vertexA = A;
-        vertexB = B;
-        vertexC = C;
-        AB = new LineSegment(A, B);
-        AC = new LineSegment(A, C);
-        BC = new LineSegment(B, C);
+        vertices = new Point[]{A, B, C};
+        //0: AB, 1: AC, 2: BC
+        sides = new LineSegment[]{new LineSegment(A, B),new LineSegment(A, C),new LineSegment(B, C)};
     }
 
     /**
@@ -38,130 +25,16 @@ public class Triangle extends Polygon {
      * @return true/false
      */
     public boolean isValidTriangle() {
-        return !(AB.getLength() + AC.getLength() <= BC.getLength() || AB.getLength() + BC.getLength() <= AC.getLength() || AC.getLength() + BC.getLength() <= AB.getLength() || AB.getSlope() == AC.getSlope() || AB.getSlope() == BC.getSlope() || BC.getSlope() == AC.getSlope());
+        double ABLen = sides[0].getLength();
+        double ACLen = sides[1].getLength();
+        double BCLen = sides[2].getLength();
+        double ABSlope = sides[0].getSlope();
+        double ACSlope = sides[1].getSlope();
+        double BCSlope = sides[2].getSlope();
+
+        return !(ABLen + ACLen <= BCLen || ABLen + BCLen <= ACLen || ACLen + BCLen <= ABLen || ABSlope == ACSlope || ABSlope == BCSlope || BCSlope == ACSlope);
     }
 
-    /**
-     * returns the vertex point A
-     *
-     * @return vertex point A
-     */
-    public Point getA() {
-        return vertexA;
-    }
-
-    /**
-     * returns the vertex point B
-     *
-     * @return vertex point B
-     */
-    public Point getB() {
-        return vertexB;
-    }
-
-    /**
-     * returns the vertex point C
-     *
-     * @return vertex point C
-     */
-    public Point getC() {
-        return vertexC;
-    }
-
-    /**
-     * returns the side AB
-     *
-     * @return side AB
-     */
-    public LineSegment getAB() {
-        return AB;
-    }
-
-    /**
-     * returns the side AC
-     *
-     * @return side AC
-     */
-    public LineSegment getAC() {
-        return AC;
-    }
-
-    /**
-     * returns the side BC
-     *
-     * @return side BC
-     */
-    public LineSegment getBC() {
-        return BC;
-    }
-
-    /**
-     * Setter that sets vertexA
-     *
-     * @param vertexA
-     */
-    public void setVertexA(Point vertexA) {
-        this.vertexA = vertexA;
-        AB = new LineSegment(vertexA, AB.getEnd());
-        AC = new LineSegment(vertexA, AC.getEnd());
-    }
-
-    /**
-     * Setter that sets vertexB
-     *
-     * @param vertexB
-     */
-    public void setVertexB(Point vertexB) {
-        this.vertexB = vertexB;
-        AB = new LineSegment(AB.getStart(), vertexB);
-        BC = new LineSegment(vertexB, BC.getEnd());
-
-    }
-
-    /**
-     * Setter that sets vertexC
-     *
-     * @param vertexC
-     */
-    public void setVertexC(Point vertexC) {
-        this.vertexC = vertexC;
-        AC = new LineSegment(AC.getStart(), vertexC);
-        BC = new LineSegment(BC.getStart(), vertexC);
-    }
-
-    /**
-     * Setter that sets side AB
-     *
-     * @param AB
-     */
-    public void setAB(LineSegment AB) {
-        this.AB = AB;
-        vertexA = AB.getStart();
-        vertexB = AB.getEnd();
-
-    }
-
-    /**
-     * Setter that sets side AC
-     *
-     * @param AC
-     */
-    public void setAC(LineSegment AC) {
-        this.AC = AC;
-        vertexA = AC.getStart();
-        vertexC = AC.getEnd();
-    }
-
-    /**
-     * Setter that sets side BC
-     *
-     * @param BC
-     */
-    public void setBC(LineSegment BC) {
-        this.BC = BC;
-        vertexB = BC.getStart();
-        vertexC = BC.getEnd();
-    }
 
     /**
      * Provide a text representation of the triangle
@@ -170,21 +43,7 @@ public class Triangle extends Polygon {
      */
     @Override
     public java.lang.String toString() {
-        return "Vertex A: " + vertexA.toString() + ", Vertex B: " + vertexB.toString() + ", Vertex C: " + vertexC.toString() + ", Line AB: " + AB.toString() + ", Line AC: " + AC.toString() + ", Line BC: " + BC.toString();
-    }
-
-    /**
-     * sets the perimeter of this triangle
-     */
-    private void setPerimeter() {
-        perimeter = AB.getLength() + AC.getLength() + BC.getLength();
-    }
-
-    /**
-     * sets the area of this triangle
-     */
-    private void setArea() {
-        area = BC.getLength() * BC.shortestDistanceFromPoint(vertexA) / 2;
+        return "Vertex A: " + vertices[0].toString() + ", Vertex B: " + vertices[1].toString() + ", Vertex C: " + vertices[2].toString() + ", Line AB: " + sides[0].toString() + ", Line AC: " + sides[1].toString() + ", Line BC: " + sides[2].toString();
     }
 
     /**
@@ -193,27 +52,21 @@ public class Triangle extends Polygon {
      * @return area
      */
     public double getArea() {
-        setArea();
+        if (area == 0) {
+            area = sides[2].getLength() * sides[2].shortestDistanceFromPoint(vertices[0]) / 2;
+        }
         return area;
     }
 
-    /**
-     * returns the perimeter of the triangle
-     *
-     * @return perimeter
-     */
-    public double getPerimeter() {
-        setPerimeter();
-        return perimeter;
-    }
 
     /**
-     * returns the location of the centroid of the triangle
-     *
-     * @return centroid point
+     * Returns the centroid of the triangle
+     * @return Centroid point
      */
-    public Point centroid() {
-        Point centroid = new Point((vertexA.getXValue() + vertexB.getXValue() + vertexC.getXValue()) / 3, (vertexA.getYValue() + vertexB.getYValue() + vertexC.getYValue()) / 3);
+    public Point getCentroid() {
+        if (centroid == null) {
+            centroid = new Point((vertices[0].getXValue() + vertices[1].getXValue() + vertices[2].getXValue()) / 3, (vertices[0].getYValue() + vertices[1].getYValue() + vertices[2].getYValue()) / 3);
+        }
         return centroid;
     }
 
@@ -247,12 +100,12 @@ public class Triangle extends Polygon {
 
         if (other instanceof Triangle) {
             Triangle o = (Triangle) other;
-            return o.vertexA == this.vertexA && o.vertexB == this.vertexB && o.vertexC == this.vertexC;
+            return o.getVertices()[0] == this.vertices[0] && o.getVertices()[1] == this.vertices[1] && o.getVertices()[2] == this.getVertices()[2];
         }
         return false;
     }
 
-
+    /*
     public Point getCircumCenter() {
         if (circumCenter == null) {
             // code to get the circumCenter;
@@ -260,4 +113,5 @@ public class Triangle extends Polygon {
 
         return circumCenter;
     }
+    */
 }

@@ -16,7 +16,7 @@ public class LineSegment {
      */
     public static LineSegment shortest(LineSegment lineSeg, Point point) {
         Point p1;
-        if (point.liesOnLine(lineSeg)) {
+        if (lineSeg.includes(point)) {
             throw new RuntimeException("Point lies on line");
         }
         try {
@@ -57,8 +57,7 @@ public class LineSegment {
      * @return midpoint
      */
     public Point getMidPoint() {
-        Point midpoint = new Point((start.getXValue() + end.getXValue()) / 2, (start.getYValue() + end.getYValue()) / 2);
-        return midpoint;
+        return new Point((start.getXValue() + end.getXValue()) / 2, (start.getYValue() + end.getYValue()) / 2);
     }
 
     /**
@@ -143,5 +142,19 @@ public class LineSegment {
      */
     public double shortestDistanceFromPoint(Point p) {
         return Math.abs((start.getYValue() - end.getYValue()) * p.getXValue() + (end.getXValue() - start.getXValue()) * p.getYValue() + (start.getXValue() - end.getXValue()) * start.getYValue() + (end.getYValue() - start.getYValue()) * start.getXValue()) / Math.sqrt(Math.pow((start.getYValue() - end.getYValue()), 2) + Math.pow((end.getXValue() - start.getXValue()), 2));
+    }
+
+    /**
+     * Checks if a point is on this line segment
+     * @param point Point
+     * @return Point
+     */
+    public boolean includes(Point point) {
+        //check if: S---P-----E using distance between points
+        LineSegment SP = new LineSegment(this.getStart(), point);
+        LineSegment PE = new LineSegment(point, this.getEnd());
+
+        //check if SE = SP + PE (floating point comparison)
+        return Math.abs(SP.getLength() + PE.getLength() - this.getLength()) <= 0.000001;
     }
 }
