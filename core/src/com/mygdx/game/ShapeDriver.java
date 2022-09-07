@@ -31,6 +31,15 @@ private int dotDistance;
      * @param point Point
      */
     public void draw(Point point) {
+        draw(point, false);
+    }
+
+    /**
+     * Draws a point
+     * @param point Point
+     * @param drawCoords Draw the coordinates
+     */
+    public void draw(Point point, Boolean drawCoords) {
         float x = (float)point.getXValue();
         float y = (float)point.getYValue();
         shapes.begin(ShapeType.Filled);
@@ -39,10 +48,12 @@ private int dotDistance;
         shapes.end();
 
         //Coordinates
-        batch.begin();
-        font.setColor(colour);
-        font.draw(batch,point.toString(), x+5,y-5);
-        batch.end();
+        if (drawCoords) {
+            batch.begin();
+            font.setColor(colour);
+            font.draw(batch, point.toString(), x + 5, y - 5);
+            batch.end();
+        }
     }
 
     /**
@@ -165,4 +176,5 @@ private int dotDistance;
     public void setColour(Color colour) {
         this.colour = colour;
     }
+
 }

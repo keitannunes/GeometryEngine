@@ -1,4 +1,5 @@
 package com.mygdx.game;
+import java.util.ArrayList;
 
 public class Point {
 
@@ -106,7 +107,61 @@ public class Point {
         }
     }
 
+    /**
+     * Calculates and returns the POI(s) of a polygon and a line
+     * @param polygon Polygon
+     * @param line Line
+     * @return POI(s)
+     */
+    public static ArrayList<Point> intersect(Polygon polygon, Line line) {
+        ArrayList<Point> intersections = new ArrayList<>();
+        for (LineSegment side: polygon.getSides()) {
+            try {
+                intersections.add(intersect(line,side));
+            } catch (RuntimeException err) {
+                //IDK what to put here
+            }
+        }
+        return intersections;
+    }
 
+    /**
+     * Calculates and returns the POI(s) of a polygon and a line
+     * @param polygon Polygon
+     * @param lineSeg Line Segment
+     * @return POI(s)
+     */
+    public static ArrayList<Point> intersect(Polygon polygon, LineSegment lineSeg) {
+        ArrayList<Point> intersections = new ArrayList<>();
+        for (LineSegment side: polygon.getSides()) {
+            try {
+                intersections.add(intersect(lineSeg,side));
+            } catch (RuntimeException err) {
+                //Empty catch block
+            }
+        }
+        return intersections;
+    }
+
+    /**
+     * Calculates and returns the POI(s) of 2 polygons
+     * @param polygon1 Polygon 1
+     * @param polygon2 Polygon 2
+     * @return POI(s)
+     */
+    public static ArrayList<Point> intersect(Polygon polygon1, Polygon polygon2) {
+        ArrayList<Point> intersections = new ArrayList<>();
+        for (LineSegment side1: polygon1.getSides()) {
+            for (LineSegment side2: polygon2.getSides()) {
+                try {
+                    intersections.add(intersect(side1, side2));
+                } catch (RuntimeException err) {
+                    //Empty catch block
+                }
+            }
+        }
+        return intersections;
+    }
     /**
      * Constructor if there are 2 arguments upon instantiation.
      *

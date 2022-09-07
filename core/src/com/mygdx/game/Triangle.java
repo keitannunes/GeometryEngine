@@ -2,7 +2,7 @@ package com.mygdx.game;
 
 public class Triangle extends Polygon {
 
-    private Point circumCenter;
+    private Point circumcenter;
     private Point centroid;
 
 
@@ -85,7 +85,7 @@ public class Triangle extends Polygon {
         return -1;
     }
     /**
-     * returns true if this object is the same as other.
+     * returns true if this object is the same as the other.
      * @param other object
      * @return true/false
      */
@@ -94,7 +94,7 @@ public class Triangle extends Polygon {
         if (this == other) {
             return true;
         }
-        if (this == null) {
+        if (other == null) {
             return false;
         }
 
@@ -105,13 +105,15 @@ public class Triangle extends Polygon {
         return false;
     }
 
-    /*
-    public Point getCircumCenter() {
-        if (circumCenter == null) {
-            // code to get the circumCenter;
+/*
+    public Point getCircumcenter() {
+        if (circumcenter == null) {
+            //P(X, Y) = [(x1 sin 2A + x2 sin 2B + x3 sin 2C)/ (sin 2A + sin 2B + sin 2C), (y1 sin 2A + y2 sin 2B + y3 sin 2C)/ (sin 2A + sin 2B + sin 2C)]
+            // code to get the circumcenter;
         }
 
-        return circumCenter;
+        return circumcenter;
     }
-    */
+ */
+
 }
