@@ -80,69 +80,6 @@ public class Line {
     }
 
     /**
-     * Calculates and returns the POI of 2 lines
-     *
-     * @param otherLine Other line
-     * @return Point of Intersection
-     */
-    public Point pointOfIntersection(Line otherLine) {//MAKE SURE TO TRY/CATCH when using this method
-        if (this.isParallel(otherLine) && this.getYIntercept().getYValue() == otherLine.getYIntercept().getYValue()) {
-            throw new RuntimeException("Lines are collinear");
-        } else if (this.isParallel(otherLine)) {
-            throw new RuntimeException("Lines are parallel");
-        } else {
-            double p1X = point.getXValue();
-            double p1Y = point.getYValue();
-            double p2X = point.getXValue() + 1;
-            double p2Y = slope * (point.getXValue() + 1) + yIntercept.getYValue(); //y=mx+b
-
-            double p3X = otherLine.getPoint().getXValue();
-            double p3Y = otherLine.getPoint().getYValue();
-            double p4X = otherLine.getPoint().getXValue() + 1;
-            double p4Y = otherLine.getSlope() * (otherLine.getPoint().getXValue() + 1) + otherLine.yIntercept.getYValue(); //y=mx+b
-
-            //I found this equation on Google
-            double v = (p1X - p2X) * (p3Y - p4Y) - (p1Y - p2Y) * (p3X - p4X); //intelliJ very cool
-            return new Point(((p1X * p2Y - p1Y * p2X) * (p3X - p4X) - (p1X - p2X) * (p3X * p4Y - p3Y * p4X)) / v, ((p1X * p2Y - p1Y * p2X) * (p3Y - p4Y) - (p1Y - p2Y) * (p3X * p4Y - p3Y * p4X)) / v);
-
-        }
-    }
-
-    /**
-     * Checks Calculates and returns the POI of a line & line segment
-     * @param otherLine Line Segment
-     * @return Point of Intersection
-     */
-    public Point pointOfIntersection(LineSegment otherLine) {
-        if (this.isParallel(otherLine) && this.getYIntercept().getYValue() == otherLine.getYIntercept().getYValue()) {
-            throw new RuntimeException("Lines are collinear");
-        } else if (this.isParallel(otherLine)) {
-            throw new RuntimeException("Lines are parallel");
-        } else {
-            double p1X = point.getXValue();
-            double p1Y = point.getYValue();
-            double p2X = point.getXValue() + 1;
-            double p2Y = slope * (point.getXValue() + 1) + yIntercept.getYValue(); //y=mx+b
-
-            double p3X = otherLine.getStart().getXValue();
-            double p3Y = otherLine.getStart().getYValue();
-            double p4X = otherLine.getEnd().getXValue();
-            double p4Y = otherLine.getEnd().getYValue();
-
-            //I found this equation on Google
-            double v = (p1X - p2X) * (p3Y - p4Y) - (p1Y - p2Y) * (p3X - p4X); //intelliJ very cool
-            Point POI = new Point(((p1X * p2Y - p1Y * p2X) * (p3X - p4X) - (p1X - p2X) * (p3X * p4Y - p3Y * p4X)) / v, ((p1X * p2Y - p1Y * p2X) * (p3Y - p4Y) - (p1Y - p2Y) * (p3X * p4Y - p3Y * p4X)) / v);
-
-            if (POI.liesOnLine(otherLine)) {
-                return POI;
-            } else {
-                throw new RuntimeException("Lines do not intersect");
-            }
-
-        }
-    }
-
-    /**
      * Calculates and returns the shortest line between the line and a point
      * @param p Point
      * @return Shortest line
@@ -151,7 +88,7 @@ public class Line {
         if (p.liesOnLine(this)) {
             throw new RuntimeException("Point lies on line");
         }
-        Point p1 = new Line(p, -1 / slope).pointOfIntersection(this); //point where perpendicular line meets this line
+        Point p1 = Point.intersect(new Line(p, -1 / slope), this); //point where perpendicular line meets this line
         return new LineSegment(p1,p);
     }
 

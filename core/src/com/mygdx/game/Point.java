@@ -7,14 +7,105 @@ public class Point {
     public static Point origin = new Point(0,0);
 
     //move POI to here...
-    /*
-    public static Point intersect(Line line1, Line line2)
-    {
-        ...
+
+    /**
+     * Calculates and returns the POI of 2 lines
+     * @param line1 Line 1
+     * @param line2 Line 2
+     * @return POI
+     */
+    public static Point intersect(Line line1, Line line2) {
+        if (line1.isParallel(line2) && line1.getYIntercept().getYValue() == line2.getYIntercept().getYValue()) {
+            throw new RuntimeException("Lines are collinear");
+        } else if (line1.isParallel(line2)) {
+            throw new RuntimeException("Lines are parallel");
+        } else {
+            double p1X = line1.getPoint().getXValue();
+            double p1Y = line1.getPoint().getYValue();
+            double p2X = line1.getPoint().getXValue() + 1;
+            double p2Y = line1.getSlope() * (line1.getPoint().getXValue() + 1) + line1.getYIntercept().getYValue(); //y=mx+b
+
+            double p3X = line2.getPoint().getXValue();
+            double p3Y = line2.getPoint().getYValue();
+            double p4X = line2.getPoint().getXValue() + 1;
+            double p4Y = line2.getSlope() * (line2.getPoint().getXValue() + 1) + line2.getYIntercept().getYValue(); //y=mx+b
+
+            //I found this equation on Google
+            double v = (p1X - p2X) * (p3Y - p4Y) - (p1Y - p2Y) * (p3X - p4X); //intelliJ very cool
+            return new Point(((p1X * p2Y - p1Y * p2X) * (p3X - p4X) - (p1X - p2X) * (p3X * p4Y - p3Y * p4X)) / v, ((p1X * p2Y - p1Y * p2X) * (p3Y - p4Y) - (p1Y - p2Y) * (p3X * p4Y - p3Y * p4X)) / v);
+
+        }
     }
 
-    public static Point[] intersect(Circle circle, Line line)
-*/
+    /**
+     * Calculates and returns the POI of a line seg and a line
+     * @param line Line
+     * @param lineSeg Line Segment
+     * @return POI
+     */
+    public static Point intersect(Line line, LineSegment lineSeg) {
+        if (line.isParallel(lineSeg) && line.getYIntercept().getYValue() == lineSeg.getYIntercept().getYValue()) {
+            throw new RuntimeException("Lines are collinear");
+        } else if (line.isParallel(lineSeg)) {
+            throw new RuntimeException("Lines are parallel");
+        } else {
+            double p1X = line.getPoint().getXValue();
+            double p1Y = line.getPoint().getYValue();
+            double p2X = line.getPoint().getXValue() + 1;
+            double p2Y = line.getSlope() * (line.getPoint().getXValue() + 1) + line.getYIntercept().getYValue(); //y=mx+b
+
+            double p3X = lineSeg.getStart().getXValue();
+            double p3Y = lineSeg.getStart().getYValue();
+            double p4X = lineSeg.getEnd().getXValue();
+            double p4Y = lineSeg.getEnd().getYValue();
+
+            //I found this equation on Google
+            double v = (p1X - p2X) * (p3Y - p4Y) - (p1Y - p2Y) * (p3X - p4X); //intelliJ very cool
+            Point POI = new Point(((p1X * p2Y - p1Y * p2X) * (p3X - p4X) - (p1X - p2X) * (p3X * p4Y - p3Y * p4X)) / v, ((p1X * p2Y - p1Y * p2X) * (p3Y - p4Y) - (p1Y - p2Y) * (p3X * p4Y - p3Y * p4X)) / v);
+
+            if (POI.liesOnLine(lineSeg)) {
+                return POI;
+            } else {
+                throw new RuntimeException("Lines do not intersect");
+            }
+
+        }
+    }
+
+    /**
+     * Calculates and returns the POI of two line segments
+     * @param lineSeg1 Line Segment 1
+     * @param lineSeg2 Line Segment 2
+     * @return POI
+     */
+    public static Point intersect(LineSegment lineSeg1, LineSegment lineSeg2) {
+        if (lineSeg1.isParallel(lineSeg2) && lineSeg1.getYIntercept().getYValue() == lineSeg2.getYIntercept().getYValue()) {
+            throw new RuntimeException("Lines are collinear");
+        } else if (lineSeg1.isParallel(lineSeg2)) {
+            throw new RuntimeException("Lines are parallel");
+        } else {
+            double p1X = lineSeg1.getStart().getXValue();
+            double p1Y = lineSeg1.getStart().getYValue();
+            double p2X = lineSeg1.getEnd().getXValue();
+            double p2Y = lineSeg1.getEnd().getYValue();
+
+            double p3X = lineSeg2.getStart().getXValue();
+            double p3Y = lineSeg2.getStart().getYValue();
+            double p4X = lineSeg2.getEnd().getXValue();
+            double p4Y = lineSeg2.getEnd().getYValue();
+
+            //I found this equation on Google
+            double v = (p1X - p2X) * (p3Y - p4Y) - (p1Y - p2Y) * (p3X - p4X); //intelliJ very cool
+            Point POI = new Point(((p1X * p2Y - p1Y * p2X) * (p3X - p4X) - (p1X - p2X) * (p3X * p4Y - p3Y * p4X)) / v, ((p1X * p2Y - p1Y * p2X) * (p3Y - p4Y) - (p1Y - p2Y) * (p3X * p4Y - p3Y * p4X)) / v);
+
+            if (POI.liesOnLine(lineSeg1) && POI.liesOnLine(lineSeg2)) {
+                return POI;
+            } else {
+                throw new RuntimeException("Lines do not intersect");
+            }
+        }
+    }
+
 
     /**
      * Constructor if there are 2 arguments upon instantiation.
@@ -104,6 +195,7 @@ public class Point {
     public java.lang.String toString() {
         return "(" + Math.round(x * 100)/100 + "," + Math.round(y * 100)/100 + ")";
     }
+
 
     /**
      * Returns if 2 points are equal

@@ -9,6 +9,30 @@ public class LineSegment {
     private Point yIntercept = new Point(); //y intercept point
 
     /**
+     * Returns the closest line between a point and a line segment
+     * @param lineSeg Line Segment
+     * @param point Point
+     * @return Line Segment
+     */
+    public static LineSegment shortest(LineSegment lineSeg, Point point) {
+        Point p1;
+        if (point.liesOnLine(lineSeg)) {
+            throw new RuntimeException("Point lies on line");
+        }
+        try {
+            p1 = Point.intersect(new Line(point, -1 / lineSeg.getSlope()), lineSeg); //point where perpendicular line meets this line
+        } catch(RuntimeException err) { //if line perpendicular does not intersect the other line
+            if (point.distanceFrom(lineSeg.getStart()) < point.distanceFrom(lineSeg.getEnd())) {
+                p1 = lineSeg.getStart();
+            } else {
+                p1 = lineSeg.getEnd();
+            }
+        }
+        return new LineSegment(p1,point);
+    }
+
+
+    /**
      * Constructor to set the start and end position of the line
      * @param p1 point 1
      * @param p2 point 2
@@ -111,71 +135,6 @@ public class LineSegment {
     public Point getYIntercept() {
         return yIntercept;
     }
-    /**
-     * returns the point of intersection between this line segment and another line
-     * @param otherLine Other Line
-     * @return point of intersection
-     */
-    public Point pointOfIntersection(Line otherLine) {
-        if (this.isParallel(otherLine) && this.getYIntercept().getYValue() == otherLine.getYIntercept().getYValue()) {
-            throw new RuntimeException("Lines are collinear");
-        } else if (this.isParallel(otherLine)) {
-            throw new RuntimeException("Lines are parallel");
-        } else {
-            double p1X = start.getXValue();
-            double p1Y = start.getYValue();
-            double p2X = end.getXValue();
-            double p2Y = end.getYValue();
-
-            double p3X = otherLine.getPoint().getXValue();
-            double p3Y = otherLine.getPoint().getYValue();
-            double p4X = otherLine.getPoint().getXValue() + 1;
-            double p4Y = otherLine.getSlope() * (otherLine.getPoint().getXValue() + 1) + otherLine.getYIntercept().getYValue(); //y=mx+b
-
-            //I found this equation on Google
-            double v = (p1X - p2X) * (p3Y - p4Y) - (p1Y - p2Y) * (p3X - p4X); //intelliJ very cool
-            Point POI = new Point(((p1X * p2Y - p1Y * p2X) * (p3X - p4X) - (p1X - p2X) * (p3X * p4Y - p3Y * p4X)) / v, ((p1X * p2Y - p1Y * p2X) * (p3Y - p4Y) - (p1Y - p2Y) * (p3X * p4Y - p3Y * p4X)) / v);
-
-            if (POI.liesOnLine(this)) {
-                return POI;
-            } else {
-                throw new RuntimeException("Lines do not intersect");
-            }
-        }
-    }
-
-    /**
-     * returns the point of intersection between this line segment and another line segment
-     * @param otherLine Other lines
-     * @return point of intersection
-     */
-    public Point pointOfIntersection(LineSegment otherLine) {
-        if (this.isParallel(otherLine) && this.getYIntercept().getYValue() == otherLine.getYIntercept().getYValue()) {
-            throw new RuntimeException("Lines are collinear");
-        } else if (this.isParallel(otherLine)) {
-            throw new RuntimeException("Lines are parallel");
-        } else {
-            double p1X = start.getXValue();
-            double p1Y = start.getYValue();
-            double p2X = end.getXValue();
-            double p2Y = end.getYValue();
-
-            double p3X = otherLine.getStart().getXValue();
-            double p3Y = otherLine.getStart().getYValue();
-            double p4X = otherLine.getEnd().getXValue();
-            double p4Y = otherLine.getEnd().getYValue();
-
-            //I found this equation on Google
-            double v = (p1X - p2X) * (p3Y - p4Y) - (p1Y - p2Y) * (p3X - p4X); //intelliJ very cool
-            Point POI = new Point(((p1X * p2Y - p1Y * p2X) * (p3X - p4X) - (p1X - p2X) * (p3X * p4Y - p3Y * p4X)) / v, ((p1X * p2Y - p1Y * p2X) * (p3Y - p4Y) - (p1Y - p2Y) * (p3X * p4Y - p3Y * p4X)) / v);
-
-            if (POI.liesOnLine(this) && POI.liesOnLine(otherLine)) {
-                return POI;
-            } else {
-                throw new RuntimeException("Lines do not intersect");
-            }
-        }
-    }
 
     /**
      * returns the shortest distance between any point and the real line collinear with this line segment
@@ -185,28 +144,4 @@ public class LineSegment {
     public double shortestDistanceFromPoint(Point p) {
         return Math.abs((start.getYValue() - end.getYValue()) * p.getXValue() + (end.getXValue() - start.getXValue()) * p.getYValue() + (start.getXValue() - end.getXValue()) * start.getYValue() + (end.getYValue() - start.getYValue()) * start.getXValue()) / Math.sqrt(Math.pow((start.getYValue() - end.getYValue()), 2) + Math.pow((end.getXValue() - start.getXValue()), 2));
     }
-
-    /**
-     * Calculates and returns the shortest line between the line and a point
-     * @param p Point
-     * @return Shortest line
-     */
-    public LineSegment shortestLineFromPoint(Point p) { //TRY/CATCH
-        Point p1;
-        if (p.liesOnLine(this)) {
-            throw new RuntimeException("Point lies on line");
-        }
-        try {
-             p1 = new Line(p, -1 / slope).pointOfIntersection(this); //point where perpendicular line meets this line
-        } catch(RuntimeException err) { //if line perpendicular does not intersect the other line
-            if (p.distanceFrom(start) < p.distanceFrom(end)) {
-                p1 = start;
-            } else {
-                p1 = end;
-            }
-        }
-        return new LineSegment(p1,p);
-    }
-
-
 }
