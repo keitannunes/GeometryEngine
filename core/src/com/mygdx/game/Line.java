@@ -37,6 +37,16 @@ public class Line {
         yIntercept = new Point(0, p.getYValue() - slope * p.getXValue());
     }
 
+    public Line(LineSegment lineSeg) {
+        point = lineSeg.getStart();
+        double x1 = lineSeg.getStart().getXValue();
+        double x2 = lineSeg.getEnd().getXValue();
+        double y1 = lineSeg.getStart().getYValue();
+        double y2 = lineSeg.getEnd().getYValue();
+        slope = (y2 - y1) / (x2 - x1);
+        yIntercept = new Point(0, point.getYValue() - slope * point.getXValue());
+    }
+
     /**
      * Provides the slope of the line
      *
@@ -86,7 +96,8 @@ public class Line {
      */
     public LineSegment shortestLineFromPoint(Point point) {
         if (this.includes(point)) {
-            throw new RuntimeException("Point lies on line");
+            System.out.println("Point lies on line");
+            return null;
         }
         Point p1 = Point.intersect(new Line(point, -1 / slope), this); //point where perpendicular line meets this line
         return new LineSegment(p1,point);

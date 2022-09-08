@@ -145,7 +145,7 @@ private int dotDistance;
      * @param circle Circle
      */
     public void draw(Circle circle) {
-        Gdx.gl.glLineWidth(2); //set line thickness to 2
+        Gdx.gl.glLineWidth(4); //set line thickness to 2
         shapes.begin(ShapeType.Line);
         shapes.setColor(colour);
         shapes.circle((float)circle.getCenter().getXValue(),(float)circle.getCenter().getYValue(),(float)circle.getRadius());
