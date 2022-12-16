@@ -1,6 +1,6 @@
-package com.mygdx.game;
+package shapes;
 
-public class Circle {
+public class Circle extends Shape {
     //field variables
     private double area; //area
     private double circumference; //circumference
@@ -81,6 +81,10 @@ public class Circle {
         return l.getLength() <= radius;
     }
 
+    @Override
+    public PrimitiveCircle[] GetPrimitiveCircles() {
+        return new PrimitiveCircle[] {new PrimitiveCircle(center.getXValue(),center.getYValue(),radius)};
+    }
     /**
      * Provide a text representation of a Circle.
      * @return text representation of a circle

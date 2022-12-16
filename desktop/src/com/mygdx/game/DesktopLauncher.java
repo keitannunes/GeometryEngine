@@ -8,9 +8,9 @@ import com.mygdx.game.GeoEngine;
 public class DesktopLauncher {
 	public static void main (String[] arg) {
 		Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
-		config.setForegroundFPS(0);
 		config.setTitle("Geometry Engine");
-		config.setWindowedMode(1280,720);
+		config.setWindowedMode(800,800);
+		config.setResizable(false);
 		new Lwjgl3Application(new GeoEngine(), config);
 	}
 

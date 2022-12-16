@@ -1,8 +1,8 @@
-package com.mygdx.game;
+package shapes;
 
 public class Triangle extends Polygon {
 
-    private Point circumcenter;
+    //private final Point circumcenter;
     private Point centroid;
 
 
@@ -58,17 +58,22 @@ public class Triangle extends Polygon {
         return area;
     }
 
-
     /**
-     * Returns the centroid of the triangle
-     * @return Centroid point
+     * Returns the centroid
+     * @return Centroid
      */
     public Point getCentroid() {
         if (centroid == null) {
-            centroid = new Point((vertices[0].getXValue() + vertices[1].getXValue() + vertices[2].getXValue()) / 3, (vertices[0].getYValue() + vertices[1].getYValue() + vertices[2].getYValue()) / 3);
+            double centroidX = (vertices[0].getXValue() + vertices[1].getXValue() + vertices[2].getXValue()) / 3;
+            double centroidY = (vertices[0].getYValue() + vertices[1].getYValue() + vertices[2].getYValue()) / 3;
+            centroid = new Point(centroidX, centroidY);
         }
         return centroid;
     }
+
+//    public Point getCircumcenter() {
+//        return circumcenter;
+//    }
 
     /**
      *compares the area of two triangles to determine which is bigger
@@ -105,7 +110,9 @@ public class Triangle extends Polygon {
         return false;
     }
 
-/*
+
+
+    /*
     public Point getCircumcenter() {
         if (circumcenter == null) {
             //P(X, Y) = [(x1 sin 2A + x2 sin 2B + x3 sin 2C)/ (sin 2A + sin 2B + sin 2C), (y1 sin 2A + y2 sin 2B + y3 sin 2C)/ (sin 2A + sin 2B + sin 2C)]

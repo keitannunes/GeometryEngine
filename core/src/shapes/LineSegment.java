@@ -1,12 +1,12 @@
-package com.mygdx.game;
+package shapes;
 
-public class LineSegment {
+public class LineSegment extends Shape{
 
-    private Point start = new Point(); //start point
-    private Point end = new Point(); //end point
-    private double slope; //slope
-    private double length; //length
-    private Point yIntercept = new Point(); //y intercept point
+    private final Point start; //start point
+    private final Point end; //end point
+    private final double slope; //slope
+    private final double length; //length
+    private final Point yIntercept; //y intercept point
 
     /**
      * Returns the closest line between a point and a line segment
@@ -19,9 +19,9 @@ public class LineSegment {
         if (lineSeg.includes(point)) {
             throw new RuntimeException("Point lies on line");
         }
-        try {
-            p1 = Point.intersect(new Line(point, -1 / lineSeg.getSlope()), lineSeg); //point where perpendicular line meets this line
-        } catch(RuntimeException err) { //if line perpendicular does not intersect the other line
+
+        p1 = Point.intersect(new Line(point, -1 / lineSeg.getSlope()), lineSeg); //point where perpendicular line meets this line
+        if (p1 == null) {
             if (point.distanceFrom(lineSeg.getStart()) < point.distanceFrom(lineSeg.getEnd())) {
                 p1 = lineSeg.getStart();
             } else {
@@ -40,9 +40,10 @@ public class LineSegment {
     public LineSegment(Point p1, Point p2) {
         start = p1;
         end = p2;
-        setLength();
-        setSlope();
-        setYIntercept();
+        length = Math.sqrt(Math.pow(end.getXValue() - start.getXValue(), 2) + Math.pow(end.getYValue() - start.getYValue(), 2));
+        slope = (end.getYValue() - start.getYValue()) / (end.getXValue() - start.getXValue());
+        yIntercept = new Point(0, start.getYValue() - slope * start.getXValue());
+
     }
     /**
      * Provides the length of the line
@@ -70,7 +71,7 @@ public class LineSegment {
 
     /**
      * Check if a line is parallel to another line
-     * @param lineSegment
+     * @param lineSegment Line Segment
      * @return boolean
      */
     public boolean isParallel(LineSegment lineSegment) {
@@ -86,24 +87,6 @@ public class LineSegment {
         return this.slope == otherLine.getSlope();
     }
 
-    /**
-     * Calculates the length of the line
-     */
-    private void setLength() {
-        length = Math.sqrt(Math.pow(end.getXValue() - start.getXValue(), 2) + Math.pow(end.getYValue() - start.getYValue(), 2));
-    }
-    /**
-     * Calculates the slope of the line
-     */
-    private void setSlope() {
-        slope = (end.getYValue() - start.getYValue()) / (end.getXValue() - start.getXValue());
-    }
-    /**
-     * sets the y-intercept of the line collinear with this line segment
-     */
-    private void setYIntercept() {
-        yIntercept = new Point(0, start.getYValue() - slope * start.getXValue());
-    }
     /**
      * Provide a text representation of a Line
      * @return text representation of a line

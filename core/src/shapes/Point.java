@@ -1,11 +1,11 @@
-package com.mygdx.game;
+package shapes;
 
 import java.util.ArrayList;
 
-public class Point {
+public class Point extends Shape{
 
-    private double x; //x coordinate
-    private double y; //y coordinate
+    private final double x; //x coordinate
+    private final double y; //y coordinate
     public static Point origin = new Point(0, 0);
 
     //move POI to here...
@@ -54,6 +54,9 @@ public class Point {
         Line line2 = new Line(lineSeg);
         //find POI of the 2 lines
         Point POI = Point.intersect(line, line2);
+        if (POI == null) {//Parallel lines
+            return null;
+        }
 
         //check if POI is on lineSeg
         if (lineSeg.includes(POI)) {
@@ -76,6 +79,9 @@ public class Point {
         Line line2 = new Line(lineSeg2);
         //find POI of the 2 lines
         Point POI = Point.intersect(line1, line2);
+        if (POI == null) {//Parallel lines
+            return null;
+        }
 
         if (lineSeg1.includes(POI) && lineSeg2.includes(POI)) {
             return POI;
@@ -185,6 +191,10 @@ public class Point {
         return Math.sqrt(Math.pow(x - p.x, 2) + Math.pow(y - p.y, 2));
     }
 
+    @Override
+    public PrimitivePoint[] GetPrimitivePoints() {
+        return new PrimitivePoint[] { new PrimitivePoint(getXValue(), getYValue()) };
+    }
 
     /**
      * overridden .toString method that returns both coordinates
@@ -220,5 +230,4 @@ public class Point {
         }
         return false;
     }
-
 }

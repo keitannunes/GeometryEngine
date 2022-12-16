@@ -1,8 +1,9 @@
-package com.mygdx.game;
+package shapes;
 
 public class Quadrilateral extends Polygon{
 
     private LineSegment[] diagonal;
+
     public Quadrilateral(Point a, Point b, Point c, Point d) {
         vertices = new Point[]{a,b,c,d};
         // [AB, BC, CD, DA]

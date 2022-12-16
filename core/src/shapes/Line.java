@@ -1,13 +1,13 @@
-package com.mygdx.game;
+package shapes;
 
 /**
  * Line class
  */
-public class Line {
+public class Line extends Shape {
 
-    private Point point = new Point(); //start point
-    private double slope; //slope
-    private Point yIntercept = new Point(); //y intercept point
+    private final Point point; //start point
+    private final double slope; //slope
+    private final Point yIntercept; //y intercept point
 
     /**
      * Constructor for 2 given points

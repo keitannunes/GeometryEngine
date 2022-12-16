@@ -7,14 +7,16 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.graphics.Color;
+import shapes.*;
 
 public class ShapeDriver {
-private ShapeRenderer shapes;
-private OrthographicCamera camera;
+private final ShapeRenderer shapes;
+private final OrthographicCamera camera;
+private final BitmapFont font = new BitmapFont();
+private final SpriteBatch batch = new SpriteBatch();
+private final int dotDistance;
 private Color colour;
-private BitmapFont font = new BitmapFont();
-private SpriteBatch batch = new SpriteBatch();
-private int dotDistance;
+
 
     public ShapeDriver() {
         shapes = new ShapeRenderer();
@@ -23,7 +25,7 @@ private int dotDistance;
         shapes.setProjectionMatrix(camera.combined);
         batch.setProjectionMatrix(camera.combined);
 
-        dotDistance = 6; //set default dot distance 2 to px
+        dotDistance = 2; //set default dot distance 2 to px
     }
 
     /**
@@ -75,8 +77,12 @@ private int dotDistance;
         shapes.setColor(colour);
 
         if(dotted) {
-            for (int i=0; i < line.getLength(); i+=dotDistance) {
-                shapes.circle((float) line.getStart().getXValue() + i, (float) line.getStart().getYValue() + (float)line.getSlope()*i, 2);
+            double xDistance = line.getEnd().getXValue() - line.getStart().getXValue();
+            double yDistance = line.getEnd().getYValue() - line.getStart().getYValue();
+
+            for (int i=0; i < line.getLength()/dotDistance; i++) {
+                System.out.println(i);
+                shapes.circle((float) (line.getStart().getXValue() +i*xDistance), (float) (line.getStart().getYValue() + (i*yDistance)), 2);
             }
         } else {
             shapes.rectLine((float) line.getStart().getXValue(), (float) line.getStart().getYValue(), (float) line.getEnd().getXValue(), (float) line.getEnd().getYValue(), 2);
@@ -118,7 +124,7 @@ private int dotDistance;
         shapes.begin(ShapeType.Filled);
         shapes.setColor(colour);
         if(dotted) {
-            for (int i=0; i < p1.distanceFrom(p2); i+=dotDistance) {
+            for (int i=0; i < p1.distanceFrom(p2); i+=dotDistance/line.getSlope()) {
                 if (line.getSlope() == Double.POSITIVE_INFINITY) {
                     shapes.circle((float) p1.getXValue(), (float) p1.getYValue() + i, 2);
                 } else {
@@ -145,14 +151,44 @@ private int dotDistance;
      * @param circle Circle
      */
     public void draw(Circle circle) {
-        Gdx.gl.glLineWidth(4); //set line thickness to 2
-        shapes.begin(ShapeType.Line);
+        draw(circle, false);
+    }
+
+    /**
+     * Draws a circle
+     * @param circle Circle
+     * @param filled Filled Circle
+     */
+    public void draw(Circle circle, boolean filled) {
+        if (filled) {
+            shapes.begin(ShapeType.Filled);
+        } else {
+            Gdx.gl.glLineWidth(4); //set line thickness to 2
+            shapes.begin(ShapeType.Line);
+        }
         shapes.setColor(colour);
-        shapes.circle((float)circle.getCenter().getXValue(),(float)circle.getCenter().getYValue(),(float)circle.getRadius());
+        shapes.circle((float) circle.getCenter().getXValue(), (float) circle.getCenter().getYValue(), (float) circle.getRadius());
         shapes.end();
     }
 
+    private void draw(Shape shape, boolean dotted, boolean drawCoords) {
+        if (shape instanceof Point) {
+            draw((Point) shape, drawCoords);
+        } else if (shape instanceof Line) {
+            draw((Line) shape, dotted);
+        } else if (shape instanceof LineSegment) {
+            draw((LineSegment) shape, dotted);
+        } else if (shape instanceof Polygon) {
+            draw((Polygon) shape);
+        } else if (shape instanceof Circle) {
+            draw((Circle) shape);
+        }
+    }
 
+    public void draw(drawableShape shape) {
+        colour = shape.getColour();
+        draw(shape.getShape(), shape.isDotted(), shape.isDrawCoords());
+    }
     /**
      * disposes ShapeRenderer
      */
