@@ -6,6 +6,6 @@ public class PointRenderOptions extends RenderOptions {
 
 
     public PointRenderOptions(Color color, boolean drawCoords) {
-        super(color,drawCoords,0,0);
+        super(color,drawCoords,CircleStyle.FILLED,LineStyle.SOLID);
     }
 }

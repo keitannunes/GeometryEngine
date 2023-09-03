@@ -95,6 +95,15 @@ public class LineSegment extends Shape{
     public java.lang.String toString() {
         return "Line " + start.toString() + " to " + end.toString() + " length: " + Math.round(length * 10)/10 + " slope: " + Math.round(slope * 10)/10;
     }
+    @Override
+    public PrimitiveLineSegment[] GetPrimitiveLineSegments() {
+        double x1 = start.getXValue();
+        double y1 = start.getYValue();
+        double x2 = end.getXValue();
+        double y2 = end.getYValue();
+        return new PrimitiveLineSegment[] {new PrimitiveLineSegment(x1,y1,x2,y2)};
+    }
+
     /**
      * returns the starting point of the line segment
      * @return starting point

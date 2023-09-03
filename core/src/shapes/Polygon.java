@@ -22,6 +22,16 @@ public abstract class Polygon extends Shape{
         return sides;
     }
 
+    @Override
+    public PrimitiveLineSegment[] GetPrimitiveLineSegments() {
+        PrimitiveLineSegment[] lineSegments = new PrimitiveLineSegment[sides.length];
+        for (int i = 0; i < sides.length; i++) {
+            lineSegments[i] = sides[i].GetPrimitiveLineSegments()[0];
+        }
+        return lineSegments;
+    }
+
+
     /**
      * Returns the vertices
      * @return Array of vertices

@@ -102,6 +102,21 @@ public class Line extends Shape {
         Point p1 = Point.intersect(new Line(point, -1 / slope), this); //point where perpendicular line meets this line
         return new LineSegment(p1,point);
     }
+    @Override
+    public PrimitiveLineSegment[] GetPrimitiveLineSegments() {
+        double x1, x2, y1, y2;
+        if (slope == Double.POSITIVE_INFINITY) {
+            x1 = x2 = getPoint().getXValue();
+            y1 = -100;
+            y2 = 100;
+        } else {
+            x1 = -100;
+            y1 = -100 * slope + yIntercept.getYValue();
+            x2 = 100;
+            y2 = 100* slope + yIntercept.getYValue();
+        }
+        return new PrimitiveLineSegment[] {new PrimitiveLineSegment(x1,y1,x2,y2)};
+    }
 
     /**
      * Checks if point is on this line

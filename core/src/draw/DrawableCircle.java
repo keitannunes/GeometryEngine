@@ -1,15 +1,16 @@
 package draw;
 
 import com.badlogic.gdx.graphics.Color;
+import draw.options.CircleStyle;
 
 public class DrawableCircle {
     private final Color color;
     private final double x;
     private final double y;
     private final double radius;
-    private final int circleStyle;
+    private final CircleStyle circleStyle;
 
-    public DrawableCircle(Color color, double x, double y, double radius, int circleStyle) {
+    public DrawableCircle(Color color, double x, double y, double radius, CircleStyle circleStyle) {
         this.color = color;
         this.x = x;
         this.y = y;
@@ -33,7 +34,7 @@ public class DrawableCircle {
         return radius;
     }
 
-    public int getCircleStyle() {
+    public CircleStyle getCircleStyle() {
         return circleStyle;
     }
 }
