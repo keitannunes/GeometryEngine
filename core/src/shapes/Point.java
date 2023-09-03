@@ -218,7 +218,7 @@ public class Point extends Shape{
         if (this == o) {
             return true;
         }
-        if (this == null) {
+        if (o == null) {
             return false;
         }
 
